@@ -3,6 +3,7 @@ Player player = new Player();
 boolean up, down, left, right;
 String s;
 ArrayList<Missile> missileList = new ArrayList<Missile>();
+ 
 
 void setup(){
   size(1200, 800);
@@ -13,18 +14,24 @@ void setup(){
 void draw(){
   background(0);
   runMissiles();
+  runBase();
   player.display();
   player.update(up, down, left, right);
-  base.display();
+  
+  showFramerate();
+}
+
+
+void runBase(){
+  base.display(20, 20);
+  
+}
+
+void showFramerate(){
   fill(150);
   textSize(12);
   text(frameRate, 0, 10);
 }
-
-
-
-
-
 
 //displays missiles if on screen
 void runMissiles(){
