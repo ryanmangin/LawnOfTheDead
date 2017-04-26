@@ -1,7 +1,7 @@
-class Missle{
+class Missile{
   int xPos, yPos, xSpeed, ySpeed;
   boolean inBounds = true;
-  Missle(int x, int y, int mx, int my){
+  Missile(int x, int y, int mx, int my){
     xPos = x;
     yPos = y;
     //xSpeed = mx;

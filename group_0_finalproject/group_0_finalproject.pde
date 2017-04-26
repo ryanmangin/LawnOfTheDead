@@ -2,7 +2,7 @@ Base base = new Base();
 Player player = new Player();
 boolean up, down, left, right;
 String s;
-ArrayList<Missle> missleList = new ArrayList<Missle>();
+ArrayList<Missile> missileList = new ArrayList<Missile>();
 
 void setup(){
   size(1200, 800);
@@ -12,7 +12,7 @@ void setup(){
 
 void draw(){
   background(0);
-  runMissles();
+  runMissiles();
   player.display();
   player.update(up, down, left, right);
   base.display();
@@ -26,23 +26,23 @@ void draw(){
 
 
 
-//displays missles if on screen
-void runMissles(){
-  for(int i = 0; i < missleList.size(); i++){
-    Missle currentMissle = missleList.get(i);
-    if(currentMissle.inBounds()){
-      currentMissle.display();
-      currentMissle.update();
+//displays missiles if on screen
+void runMissiles(){
+  for(int i = 0; i < missileList.size(); i++){
+    Missile currentMissile = missileList.get(i);
+    if(currentMissile.inBounds()){
+      currentMissile.display();
+      currentMissile.update();
     }else{
-      missleList.remove(currentMissle);
+      missileList.remove(currentMissile);
     }
   }
 }
 
-//creates missle
+//creates missile
 void mousePressed(){
-  Missle newMissle = new Missle(player.xPos, player.yPos, mouseX, mouseY);
-  missleList.add(newMissle);
+  Missile newMissile = new Missile(player.xPos, player.yPos, mouseX, mouseY);
+  missileList.add(newMissile);
 }
 
 //moves character
