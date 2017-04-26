@@ -2,6 +2,8 @@ Base base = new Base();
 Player player = new Player();
 boolean up, down, left, right;
 String s;
+ArrayList<Missle> missleList = new ArrayList<Missle>();
+
 void setup(){
   size(1200, 800);
   player.xPos = 300;
@@ -10,8 +12,7 @@ void setup(){
 
 void draw(){
   background(0);
-  
-  
+  runMissles();
   player.display();
   player.update(up, down, left, right);
   base.display();
@@ -25,12 +26,26 @@ void draw(){
 
 
 
+//displays missles if on screen
+void runMissles(){
+  for(int i = 0; i < missleList.size(); i++){
+    Missle currentMissle = missleList.get(i);
+    if(currentMissle.inBounds()){
+      currentMissle.display();
+      currentMissle.update();
+    }else{
+      missleList.remove(currentMissle);
+    }
+  }
+}
 
+//creates missle
+void mousePressed(){
+  Missle newMissle = new Missle(player.xPos, player.yPos, mouseX, mouseY);
+  missleList.add(newMissle);
+}
 
-
-
-
-
+//moves character
 void keyPressed(){
   if(key == 'w'){
     up = true;
@@ -46,6 +61,7 @@ void keyPressed(){
   }
 }
 
+//stops movement
 void keyReleased(){
   if(key == 'd'){
     right = false;
