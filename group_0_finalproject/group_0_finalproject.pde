@@ -1,34 +1,62 @@
 Base base = new Base();
 Player player = new Player();
+boolean up, down, left, right;
+String s;
 void setup(){
   size(1200, 800);
-  player.xPos = 400;
-  player.yPos = 400;
+  player.xPos = 300;
+  player.yPos = 375;
 }
 
 void draw(){
   background(0);
+  
+  
   player.display();
-  player.update();
+  player.update(up, down, left, right);
   base.display();
+  fill(150);
+  textSize(12);
+  text(frameRate, 0, 10);
 }
+
+
+
+
+
+
+
+
+
+
+
 
 void keyPressed(){
   if(key == 'w'){
-    player.ySpeed = -3;
+    up = true;
   }
   if(key == 'a'){
-    player.xSpeed = -3;
+    left = true;
   }
   if(key == 's'){
-    player.ySpeed = 3;
+    down = true;
   }
   if(key == 'd'){
-    player.xSpeed = 3;
+    right = true;
   }
 }
 
 void keyReleased(){
-  player.xSpeed = 0;
-  player.ySpeed = 0;
+  if(key == 'd'){
+    right = false;
+  }
+  if(key == 'a'){
+    left = false;
+  }
+  if(key == 'w'){
+    up = false;
+  }
+  if(key == 's'){
+    down = false;
+  }
 }
