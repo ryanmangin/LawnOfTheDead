@@ -8,6 +8,7 @@ IntList wave_list;
 IntList money_list;
 IntList zombie_list;
 float currentHP, maxHP;
+boolean new_wave;
 
 
 
@@ -31,6 +32,7 @@ void setup(){
   //adding
   player.xPos = 450;
   player.yPos = 420;
+  zombie.zombieList();
   
   
 }
@@ -43,7 +45,6 @@ void draw(){
     }
     background(200);
     runShelter();
-    data.update();
     player.runPlayer();
     missile.runMissiles();
     zombie.runZombie();

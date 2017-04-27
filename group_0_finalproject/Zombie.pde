@@ -51,7 +51,6 @@ class Zombie{
         if(currentMissile.yPos > yPos-10 && currentMissile.yPos < yPos-10+zHeight){
           zombieHP -= player.damage;
           missile.missileList.remove(currentMissile);
-          print(zombieHP);
           //sound effect here
         }
       }
@@ -65,12 +64,14 @@ class Zombie{
       Zombie newZombie = new Zombie(3, 4, 1, 1);
       zombieList.add(newZombie);
     }
-    print(wave.zombie_num);
   }
   
   void runZombie(){
     zombieList();
-    for(int i = 0; i < zombieList.size(); i++){
+    Wave_Info wave = new Wave_Info();
+    wave.update();
+    int s = second();
+    for(int i = 0; i < wave.zombie_num; i++){
       Zombie currentZombie = zombieList.get(i);
       currentZombie.display();      
     }
