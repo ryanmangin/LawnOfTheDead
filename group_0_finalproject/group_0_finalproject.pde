@@ -1,36 +1,72 @@
-Base base = new Base();
+Shelter shelter = new Shelter();
+Wave_Info data = new Wave_Info();
 Player player = new Player();
-boolean up, down, left, right;
-String s;
+boolean gameRunning, left, right;
 ArrayList<Missile> missileList = new ArrayList<Missile>();
- 
+IntList wave_list;
+IntList money_list;
+IntList zombie_list;
+int currentHP, maxHP;
+
+Zombie a = new Zombie(3, 4, 2, 1);
 
 void setup(){
-  size(1200, 800);
-  player.xPos = 300;
-  player.yPos = 375;
+  currentHP = 20;
+  maxHP = 20;
+  player.damage = 1;
+  gameRunning = true;
+  wave_list = new IntList();
+  money_list = new IntList();
+  zombie_list = new IntList();
+  Table table = loadTable("Waves.csv", "header");
+  for (TableRow r : table.rows()) {
+      wave_list.append(r.getInt("Wave"));
+      money_list.append(r.getInt("Money"));
+      zombie_list.append(r.getInt("Zombies"));
+    }
+  size(1600, 800);
+  
+  
+  //adding
+  player.xPos = 450;
+  player.yPos = 420;
+  
+  
 }
 
 void draw(){
-  background(0);
-  runMissiles();
-  runBase();
-  player.display();
-  player.update(up, down, left, right);
-  
-  showFramerate();
+  if(gameRunning){
+    if(currentHP <= 0){
+      gameRunning = false;
+      print("game over");
+    }
+    background(200);
+    runShelter();
+    data.update();
+    a.display();
+    runPlayer();
+    runMissiles();
+    showFramerate();
+    //if (frameCount%90 == 0){
+    //  print(missileList.size(), "\n");
+    //}
+  }
 }
 
-
-void runBase(){
-  base.display(20, 20);
-  
+void runShelter(){
+  shelter.display(currentHP, maxHP);
 }
 
 void showFramerate(){
   fill(150);
   textSize(12);
   text(frameRate, 0, 10);
+  
+}
+
+void runPlayer(){
+  player.display();
+  player.update(left, right);
 }
 
 //displays missiles if on screen
@@ -54,14 +90,8 @@ void mousePressed(){
 
 //moves character
 void keyPressed(){
-  if(key == 'w'){
-    up = true;
-  }
   if(key == 'a'){
     left = true;
-  }
-  if(key == 's'){
-    down = true;
   }
   if(key == 'd'){
     right = true;
@@ -75,11 +105,5 @@ void keyReleased(){
   }
   if(key == 'a'){
     left = false;
-  }
-  if(key == 'w'){
-    up = false;
-  }
-  if(key == 's'){
-    down = false;
   }
 }
