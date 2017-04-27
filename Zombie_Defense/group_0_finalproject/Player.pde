@@ -1,5 +1,5 @@
 class Player{
-  int xPos, yPos, xSpeed;
+  int xPos, yPos, xSpeed, damage;
   
   
   void display(){

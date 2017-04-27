@@ -1,18 +1,20 @@
 Shelter shelter = new Shelter();
 Wave_Info data = new Wave_Info();
 Player player = new Player();
-boolean up, down, left, right;
+boolean gameRunning, left, right;
 ArrayList<Missile> missileList = new ArrayList<Missile>();
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
 int currentHP, maxHP;
 
-Zombie a = new Zombie();
+Zombie a = new Zombie(3, 4, 2, 1);
 
 void setup(){
   currentHP = 20;
   maxHP = 20;
+  player.damage = 1;
+  gameRunning = true;
   wave_list = new IntList();
   money_list = new IntList();
   zombie_list = new IntList();
@@ -33,15 +35,21 @@ void setup(){
 }
 
 void draw(){
-  background(200);
-  runShelter();
-  data.update();
-  a.display();
-  runMissiles();
-  runPlayer();
-  showFramerate();
-  if (frameCount%90 == 0){
-    print(missileList.size(), "\n");
+  if(gameRunning){
+    if(currentHP <= 0){
+      gameRunning = false;
+      print("game over");
+    }
+    background(200);
+    runShelter();
+    data.update();
+    a.display();
+    runPlayer();
+    runMissiles();
+    showFramerate();
+    //if (frameCount%90 == 0){
+    //  print(missileList.size(), "\n");
+    //}
   }
 }
 
