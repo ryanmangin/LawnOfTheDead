@@ -1,7 +1,6 @@
 class Player{
   int xPos, yPos, xSpeed, damage;
   
-  
   void display(){
     fill(255);
     rect(xPos, yPos, 30, 80);
@@ -15,8 +14,12 @@ class Player{
       }else{
         xSpeed = 0;
       }
-    xPos += xSpeed;
-    
+    xPos += xSpeed;    
+  }
+  
+  void runPlayer(){
+    player.display();
+    player.update(left, right);
   }
 }
     

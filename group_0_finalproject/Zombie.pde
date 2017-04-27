@@ -1,4 +1,5 @@
 class Zombie{
+  ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
   float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP;
   float yPos = 700;
   float xPos = 1600;
@@ -21,7 +22,7 @@ class Zombie{
     rect(xPos, yPos-10, 50*displayHP, 5);
   }
   
-  void runZombie(){
+  void moveZombie(){
     if(xPos > 500){
       xPos -= speed;
     }else{
@@ -38,22 +39,40 @@ class Zombie{
     if (zombieHP > 0){
       rect(xPos, yPos, zWidth, zHeight);
       healthBar();
-      runZombie();
+      moveZombie();
       collision();
     }  
   }
   
   void collision(){
-    for(int i = 0; i < missileList.size(); i++){   
-      Missile currentMissile = missileList.get(i);
+    for(int i = 0; i < missile.missileList.size(); i++){   
+      Missile currentMissile = missile.missileList.get(i);
       if(currentMissile.xPos > xPos-20 && currentMissile.xPos < xPos-5+zWidth){
         if(currentMissile.yPos > yPos-10 && currentMissile.yPos < yPos-10+zHeight){
           zombieHP -= player.damage;
-          missileList.remove(currentMissile);
+          missile.missileList.remove(currentMissile);
           print(zombieHP);
           //sound effect here
         }
       }
+    }
+  }
+  
+  void zombieList(){
+    Wave_Info wave = new Wave_Info();
+    wave.update();
+    for(int i = 0; i < wave.zombie_num; i++){
+      Zombie newZombie = new Zombie(3, 4, 1, 1);
+      zombieList.add(newZombie);
+    }
+    print(wave.zombie_num);
+  }
+  
+  void runZombie(){
+    zombieList();
+    for(int i = 0; i < zombieList.size(); i++){
+      Zombie currentZombie = zombieList.get(i);
+      currentZombie.display();      
     }
   }
 }

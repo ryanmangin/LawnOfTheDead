@@ -1,14 +1,15 @@
 Shelter shelter = new Shelter();
 Wave_Info data = new Wave_Info();
 Player player = new Player();
+Missile missile = new Missile(player.xPos, player.yPos, mouseX, mouseY);
+Zombie zombie = new Zombie(0, 0, 0, 0);
 boolean gameRunning, left, right;
-ArrayList<Missile> missileList = new ArrayList<Missile>();
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
 float currentHP, maxHP;
 
-Zombie a = new Zombie(3, 4, 200, 1);
+
 
 void setup(){
   currentHP = 2000;
@@ -43,9 +44,9 @@ void draw(){
     background(200);
     runShelter();
     data.update();
-    a.display();
-    runPlayer();
-    runMissiles();
+    player.runPlayer();
+    missile.runMissiles();
+    zombie.runZombie();
     showFramerate();
   }
 }
@@ -61,28 +62,10 @@ void showFramerate(){
   
 }
 
-void runPlayer(){
-  player.display();
-  player.update(left, right);
-}
-
-//displays missiles if on screen
-void runMissiles(){
-  for(int i = 0; i < missileList.size(); i++){
-    Missile currentMissile = missileList.get(i);
-    if(currentMissile.inBounds()){
-      currentMissile.display();
-      currentMissile.update();
-    }else{
-      missileList.remove(currentMissile);
-    }
-  }
-}
-
 //creates missile
 void mousePressed(){
   Missile newMissile = new Missile(player.xPos, player.yPos, mouseX, mouseY);
-  missileList.add(newMissile);
+  missile.missileList.add(newMissile);
 }
 
 //moves character

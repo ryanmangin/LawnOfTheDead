@@ -16,7 +16,6 @@ class Shelter {
   
   void healthBar(){
     float displayHP = currentHP/maxHP;
-    print(displayHP, currentHP, maxHP, "\n");
     fill(255,0,0);
     rect(100, 635, 300, 20);
     fill(0,255,0);
