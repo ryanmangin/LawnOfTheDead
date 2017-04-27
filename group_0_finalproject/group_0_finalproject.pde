@@ -6,13 +6,13 @@ ArrayList<Missile> missileList = new ArrayList<Missile>();
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
-int currentHP, maxHP;
+float currentHP, maxHP;
 
-Zombie a = new Zombie(3, 4, 2, 1);
+Zombie a = new Zombie(3, 4, 200, 1);
 
 void setup(){
-  currentHP = 20;
-  maxHP = 20;
+  currentHP = 2000;
+  maxHP = 2000;
   player.damage = 1;
   gameRunning = true;
   wave_list = new IntList();
@@ -47,9 +47,6 @@ void draw(){
     runPlayer();
     runMissiles();
     showFramerate();
-    //if (frameCount%90 == 0){
-    //  print(missileList.size(), "\n");
-    //}
   }
 }
 

@@ -1,20 +1,26 @@
 class Zombie{
-  float health, speed, attackDamage, attackSpeed, timer;
+  float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP;
   float yPos = 700;
   float xPos = 1600;
   float zHeight = 100;
   float zWidth = 50;
   
   Zombie(float hp, float s, float ad, float as){
-    health = hp;
+    zombieMaxHP = hp;
+    zombieHP = hp;
     speed = s;
     attackDamage = ad;
     attackSpeed = as;
   }
   
-  void health(){
-    health = 100;
+  void healthBar(){
+    displayHP = zombieHP/zombieMaxHP;
+    fill(255,0,0);
+    rect(xPos, yPos-10, 50, 5);
+    fill(0,255,0);
+    rect(xPos, yPos-10, 50*displayHP, 5);
   }
+  
   void runZombie(){
     if(xPos > 500){
       xPos -= speed;
@@ -29,8 +35,9 @@ class Zombie{
     }
   }
   void display(){
-    if (health > 0){
+    if (zombieHP > 0){
       rect(xPos, yPos, zWidth, zHeight);
+      healthBar();
       runZombie();
       collision();
     }  
@@ -41,9 +48,9 @@ class Zombie{
       Missile currentMissile = missileList.get(i);
       if(currentMissile.xPos > xPos-20 && currentMissile.xPos < xPos-5+zWidth){
         if(currentMissile.yPos > yPos-10 && currentMissile.yPos < yPos-10+zHeight){
-          health -= player.damage;
+          zombieHP -= player.damage;
           missileList.remove(currentMissile);
-          print(health);
+          print(zombieHP);
           //sound effect here
         }
       }

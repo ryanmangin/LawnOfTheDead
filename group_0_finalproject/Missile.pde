@@ -6,7 +6,7 @@ class Missile{
     PVector mousePosition = new PVector(mx, my);
     mousePosition.sub(playerPosition);
     mousePosition.normalize();
-    mousePosition.mult(5);
+    mousePosition.mult(10);
     xPos = x;
     yPos = y;
     xSpeed = mousePosition.x;
