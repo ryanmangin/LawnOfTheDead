@@ -7,7 +7,7 @@ boolean gameRunning, left, right;
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
-float currentHP, maxHP;
+float currentHP, maxHP, zombie_num;
 boolean new_wave;
 
 
@@ -32,7 +32,6 @@ void setup(){
   //adding
   player.xPos = 450;
   player.yPos = 420;
-  zombie.zombieList();
   
   
 }
@@ -44,11 +43,19 @@ void draw(){
       print("game over");
     }
     background(200);
+    data.update();
     runShelter();
     player.runPlayer();
     missile.runMissiles();
-    zombie.runZombie();
+    zombie_num = data.zombie_num;
+    zombie.runZombie(zombie_num);
     showFramerate();
+    zombie.allDead();
+    if(millis() > 1000 & zombie.allDead){
+      print('x');
+      data.i += 1;
+      zombie.zombieCount = 0;
+    }
   }
 }
 

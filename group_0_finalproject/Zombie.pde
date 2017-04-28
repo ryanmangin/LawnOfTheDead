@@ -1,10 +1,13 @@
 class Zombie{
   ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
-  float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP;
+  float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP, spawnTime, spawnRate = 1, zombie_num;
+  int zombieCount;
   float yPos = 700;
   float xPos = 1600;
   float zHeight = 100;
   float zWidth = 50;
+  boolean allDead;
+  
   
   Zombie(float hp, float s, float ad, float as){
     zombieMaxHP = hp;
@@ -37,11 +40,12 @@ class Zombie{
   }
   void display(){
     if (zombieHP > 0){
+      fill(0);
       rect(xPos, yPos, zWidth, zHeight);
       healthBar();
       moveZombie();
       collision();
-    }  
+    }
   }
   
   void collision(){
@@ -57,23 +61,31 @@ class Zombie{
     }
   }
   
-  void zombieList(){
-    Wave_Info wave = new Wave_Info();
-    wave.update();
-    for(int i = 0; i < wave.zombie_num; i++){
+  void zombieList(float zombie_num){
+    if(millis() - spawnTime > spawnRate * 1000 & zombieCount < zombie_num){
       Zombie newZombie = new Zombie(3, 4, 1, 1);
       zombieList.add(newZombie);
+      zombieCount += 1; 
+      spawnTime = millis();
     }
   }
   
-  void runZombie(){
-    zombieList();
-    Wave_Info wave = new Wave_Info();
-    wave.update();
-    int s = second();
-    for(int i = 0; i < wave.zombie_num; i++){
+  void runZombie(float zombie_num){
+    zombieList(zombie_num);
+    for(int i = 0; i < zombieList.size(); i++){
       Zombie currentZombie = zombieList.get(i);
-      currentZombie.display();      
+      currentZombie.display();
+      if(currentZombie.zombieHP <= 0){
+        zombieList.remove(currentZombie);
+      }
+    }
+  }
+  
+  void allDead(){
+    if(zombieList.size() == 0){
+      allDead = true;
+    } else{
+        allDead = false;
     }
   }
 }
