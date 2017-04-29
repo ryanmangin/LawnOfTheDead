@@ -22,4 +22,8 @@ class Shelter {
     rect(100, 635, 300*displayHP, 20);
    
   }
+  
+  void runShelter(){
+    shelter.display(currentHP, maxHP);
+  }
 }

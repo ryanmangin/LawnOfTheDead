@@ -8,7 +8,6 @@ class Zombie{
   float zWidth = 50;
   boolean allDead;
   
-  
   Zombie(float hp, float s, float ad, float as){
     zombieMaxHP = hp;
     zombieHP = hp;
@@ -40,8 +39,7 @@ class Zombie{
   }
   void display(){
     if (zombieHP > 0){
-      fill(0);
-      rect(xPos, yPos, zWidth, zHeight);
+      zombieSprite.display(xPos, yPos, zWidth, zHeight);
       healthBar();
       moveZombie();
       collision();
@@ -63,7 +61,7 @@ class Zombie{
   
   void zombieList(float zombie_num){
     if(millis() - spawnTime > spawnRate * 1000 & zombieCount < zombie_num){
-      Zombie newZombie = new Zombie(3, 4, 1, 1);
+      Zombie newZombie = new Zombie(3, 1, 1, 1);
       zombieList.add(newZombie);
       zombieCount += 1; 
       spawnTime = millis();

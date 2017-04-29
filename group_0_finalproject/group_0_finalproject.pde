@@ -3,16 +3,20 @@ Wave_Info data = new Wave_Info();
 Player player = new Player();
 Missile missile = new Missile(player.xPos, player.yPos, mouseX, mouseY);
 Zombie zombie = new Zombie(0, 0, 0, 0);
+Sprite zombieSprite = new Sprite();
+Crosshead crosshead = new Crosshead();
 boolean gameRunning, left, right;
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
 float currentHP, maxHP, zombie_num;
 boolean new_wave;
+PImage background;
 
 
 
 void setup(){
+  background = loadImage("background.gif");
   currentHP = 2000;
   maxHP = 2000;
   player.damage = 1;
@@ -20,6 +24,7 @@ void setup(){
   wave_list = new IntList();
   money_list = new IntList();
   zombie_list = new IntList();
+  zombieSprite.sprite("Zombie_Girl/PNG/Animation/Walk_", 6);
   Table table = loadTable("Waves.csv", "header");
   for (TableRow r : table.rows()) {
       wave_list.append(r.getInt("Wave"));
@@ -42,9 +47,9 @@ void draw(){
       gameRunning = false;
       print("game over");
     }
-    background(200);
+    image(background, 0, 0);
     data.update();
-    runShelter();
+    shelter.runShelter();
     player.runPlayer();
     missile.runMissiles();
     zombie_num = data.zombie_num;
@@ -56,12 +61,11 @@ void draw(){
       data.i += 1;
       zombie.zombieCount = 0;
     }
+    crosshead.display();
   }
 }
 
-void runShelter(){
-  shelter.display(currentHP, maxHP);
-}
+
 
 void showFramerate(){
   fill(150);
