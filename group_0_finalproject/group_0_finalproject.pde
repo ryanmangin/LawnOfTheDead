@@ -1,19 +1,20 @@
-Shelter shelter = new Shelter();
-Wave_Info data = new Wave_Info();
-Player player = new Player();
-Zombie zombie = new Zombie(0, 0, 0, 0);
-Sprite zombieSprite = new Sprite();
-Crosshead crosshead = new Crosshead();
 ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
 ArrayList<Missile> missileList = new ArrayList<Missile>();
 boolean gameRunning, left, right, up, down;
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
-float currentHP, maxHP, zombie_num;
+float currentHP, maxHP, zombie_num, missileWidth, missileHeight;
+String gunType = "standard";
 boolean new_wave;
 PImage background;
 PVector gPlayerPos = new PVector(0, 0);
+Shelter shelter = new Shelter();
+Wave_Info data = new Wave_Info();
+Player player = new Player();
+Zombie zombie = new Zombie(0, 0, 0, 0);
+Sprite zombieSprite = new Sprite();
+Crosshead crosshead = new Crosshead();
 
 
 Zombie z = new Zombie(4, 4, 4, 4);
@@ -108,7 +109,11 @@ void runPlayer(){
 
 //creates missile
 void mousePressed(){
-  Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
+  if(gunType == "standard"){
+    missileWidth = 10;
+    missileHeight = 10;
+  }
+  Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY, missileWidth, missileHeight);
   missileList.add(newMissile);
 }
 

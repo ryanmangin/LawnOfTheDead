@@ -74,8 +74,8 @@ class Zombie{
   void collision(){
     for(int i = 0; i < missileList.size(); i++){   
       Missile currentMissile = missileList.get(i);
-      if(currentMissile.xPos > zombiePos.x-20 && currentMissile.xPos < zombiePos.x-5+zWidth){
-        if(currentMissile.yPos > zombiePos.y-10 && currentMissile.yPos < zombiePos.y-10+zHeight){
+      if(currentMissile.xPos > zombiePos.x-currentMissile.mWidth && currentMissile.xPos < zombiePos.x-5+zWidth){
+        if(currentMissile.yPos > zombiePos.y-currentMissile.mHeight && currentMissile.yPos < zombiePos.y-10+zHeight){
           zombieHP -= player.damage;
           missileList.remove(currentMissile);
           //sound effect here
