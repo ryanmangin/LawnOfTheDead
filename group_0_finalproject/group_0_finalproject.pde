@@ -55,7 +55,7 @@ void draw(){
     
     showFramerate();
     z.display();
-    ellipse(500, 400, 30, 30);
+    //ellipse(500, 400, 30, 30);
     crosshead.display();
   }
   
