@@ -10,7 +10,7 @@ class Player{
   void update(boolean left, boolean right, boolean up, boolean down){
       if(left && playerPos.x > 400){
         xSpeed = -3;
-      }else if(right && playerPos.x < 600){
+      }else if(right && playerPos.x < 1570){
         xSpeed = 3;
       }else{
         xSpeed = 0;
