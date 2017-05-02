@@ -1,17 +1,22 @@
 Shelter shelter = new Shelter();
 Wave_Info data = new Wave_Info();
 Player player = new Player();
-Missile missile = new Missile(player.xPos, player.yPos, mouseX, mouseY);
 Zombie zombie = new Zombie(0, 0, 0, 0);
 Sprite zombieSprite = new Sprite();
 Crosshead crosshead = new Crosshead();
-boolean gameRunning, left, right;
+ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
+ArrayList<Missile> missileList = new ArrayList<Missile>();
+boolean gameRunning, left, right, up, down;
 IntList wave_list;
 IntList money_list;
 IntList zombie_list;
 float currentHP, maxHP, zombie_num;
 boolean new_wave;
 PImage background;
+PVector gPlayerPos = new PVector(0, 0);
+
+
+Zombie z = new Zombie(4, 4, 4, 4);
 
 
 
@@ -34,11 +39,6 @@ void setup(){
   size(1600, 800);
   
   
-  //adding
-  player.xPos = 450;
-  player.yPos = 420;
-  
-  
 }
 
 void draw(){
@@ -50,19 +50,15 @@ void draw(){
     image(background, 0, 0);
     data.update();
     shelter.runShelter();
-    player.runPlayer();
-    missile.runMissiles();
-    zombie_num = data.zombie_num;
-    zombie.runZombie(zombie_num);
+    runPlayer();
+    runMissiles();
+    
     showFramerate();
-    zombie.allDead();
-    if(millis() > 1000 & zombie.allDead){
-      print('x');
-      data.i += 1;
-      zombie.zombieCount = 0;
-    }
+    z.display();
+    ellipse(500, 400, 30, 30);
     crosshead.display();
   }
+  
 }
 
 
@@ -74,10 +70,46 @@ void showFramerate(){
   
 }
 
+void runZombie(){
+    for(int i = 0; i < zombieList.size(); i++){
+      Zombie currentZombie = zombieList.get(i);
+      currentZombie.display();
+      if(currentZombie.zombieHP <= 0){
+        zombieList.remove(currentZombie);
+      }
+    }
+  }
+
+//displays missiles if on screen
+  void runMissiles(){
+    for(int i = 0; i < missileList.size(); i++){
+      Missile currentMissile = missileList.get(i);
+      if(currentMissile.inBounds()){
+        currentMissile.display();
+        currentMissile.update();
+      }else{
+        missileList.remove(currentMissile);
+      }
+    }
+  }  
+
+void runPlayer(){
+    player.display();
+    player.update(left, right, up, down);
+  }
+
+
+
+
+
+
+
+
+
 //creates missile
 void mousePressed(){
-  Missile newMissile = new Missile(player.xPos, player.yPos, mouseX, mouseY);
-  missile.missileList.add(newMissile);
+  Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
+  missileList.add(newMissile);
 }
 
 //moves character
@@ -88,6 +120,12 @@ void keyPressed(){
   if(key == 'd'){
     right = true;
   }
+  if(key == 'w'){
+    up = true;
+  }
+  if(key == 's'){
+    down = true;
+  }
 }
 
 //stops movement
@@ -97,5 +135,11 @@ void keyReleased(){
   }
   if(key == 'a'){
     left = false;
+  }
+  if(key == 'w'){
+    up = false;
+  }
+  if(key == 's'){
+    down = false;
   }
 }

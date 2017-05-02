@@ -1,12 +1,9 @@
 class Zombie{
-  ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
+  PVector zombiePos = new PVector();
   float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP, spawnTime, spawnRate = 1, zombie_num;
-  int zombieCount;
-  float yPos = 700;
-  float xPos = 1600;
+  
   float zHeight = 100;
   float zWidth = 50;
-  boolean allDead;
   
   Zombie(float hp, float s, float ad, float as){
     zombieMaxHP = hp;
@@ -14,24 +11,52 @@ class Zombie{
     speed = s;
     attackDamage = ad;
     attackSpeed = as;
+    if(int(random(4)) > 1){
+      zombiePos.y = int(random(800));
+      zombiePos.x = 1600;
+    }else if(int(random(1)) == 0){
+      zombiePos.x = 1400 + random(200);
+      zombiePos.y = 0;
+    }else{
+      zombiePos.x = 1400 + random(200);
+      zombiePos.y = 800;
+    }
+    
   }
   
   void healthBar(){
     displayHP = zombieHP/zombieMaxHP;
     fill(255,0,0);
-    rect(xPos, yPos-10, 50, 5);
+    rect(zombiePos.x, zombiePos.y-10, 50, 5);
     fill(0,255,0);
-    rect(xPos, yPos-10, 50*displayHP, 5);
+    rect(zombiePos.x, zombiePos.y-10, 50*displayHP, 5);
   }
   
   void moveZombie(){
-    if(xPos > 500){
-      xPos -= speed;
-    }else{
-      attack();
-    }
+    
+    PVector attraction = new PVector(400, 400).sub(zombiePos);
+    PVector playerPos = new PVector(gPlayerPos.x, gPlayerPos.y).sub(zombiePos);
+    
+    //if(zombiePos.x < 510 && zombiePos.x > 400){
+    //    zombiePos.x -= speed + 1;
+    //}else{
+    //  if(playerPos.mag() < attraction.mag()){
+    //    if(zombiePos.x > 405){
+    //      playerPos.normalize();
+    //      zombiePos.x += playerPos.x*speed;
+    //      zombiePos.y += playerPos.y*speed;
+    //    }
+    //  }
+    //}
+    attraction.normalize();
+    attraction.mult(2);
+    zombiePos.add(attraction);
+    
+    
+    
   }
-  void attack(){
+  
+  void attackBase(){
     if(millis() - timer > attackSpeed*1000){
       currentHP -= attackDamage;
       timer = millis();
@@ -39,7 +64,7 @@ class Zombie{
   }
   void display(){
     if (zombieHP > 0){
-      zombieSprite.display(xPos, yPos, zWidth, zHeight);
+      zombieSprite.display(zombiePos.x, zombiePos.y, zWidth, zHeight);
       healthBar();
       moveZombie();
       collision();
@@ -47,43 +72,21 @@ class Zombie{
   }
   
   void collision(){
-    for(int i = 0; i < missile.missileList.size(); i++){   
-      Missile currentMissile = missile.missileList.get(i);
-      if(currentMissile.xPos > xPos-20 && currentMissile.xPos < xPos-5+zWidth){
-        if(currentMissile.yPos > yPos-10 && currentMissile.yPos < yPos-10+zHeight){
+    for(int i = 0; i < missileList.size(); i++){   
+      Missile currentMissile = missileList.get(i);
+      if(currentMissile.xPos > zombiePos.x-20 && currentMissile.xPos < zombiePos.x-5+zWidth){
+        if(currentMissile.yPos > zombiePos.y-10 && currentMissile.yPos < zombiePos.y-10+zHeight){
           zombieHP -= player.damage;
-          missile.missileList.remove(currentMissile);
+          missileList.remove(currentMissile);
           //sound effect here
         }
       }
     }
   }
   
-  void zombieList(float zombie_num){
-    if(millis() - spawnTime > spawnRate * 1000 & zombieCount < zombie_num){
-      Zombie newZombie = new Zombie(3, 1, 1, 1);
-      zombieList.add(newZombie);
-      zombieCount += 1; 
-      spawnTime = millis();
-    }
-  }
   
-  void runZombie(float zombie_num){
-    zombieList(zombie_num);
-    for(int i = 0; i < zombieList.size(); i++){
-      Zombie currentZombie = zombieList.get(i);
-      currentZombie.display();
-      if(currentZombie.zombieHP <= 0){
-        zombieList.remove(currentZombie);
-      }
-    }
-  }
   
-  void allDead(){
-    if(zombieList.size() == 0){
-      allDead = true;
-    } else{
-        allDead = false;
-    }
-  }
+  
+  
+ 
 }
