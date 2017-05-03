@@ -35,13 +35,11 @@ class Missile{
     rotate(angle);
     ellipse(0, 0, 30, 20);
     fill(255);
-    ellipse(0, 0, 15, 10);
+    ellipse(0, 0, 15, 10);    
     popMatrix();
   }
   void update(){
     xPos += xSpeed;
     yPos += ySpeed;
   }
-  
-  
 }

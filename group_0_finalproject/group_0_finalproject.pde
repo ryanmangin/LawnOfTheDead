@@ -43,9 +43,9 @@ void setup(){
   player.damage = .5;
   gameRunning = true;
   zombieSprite.sprite("Zombie_Girl/PNG/Animation/Walk_", 6);
-  characterSpriteRun.sprite("Character/Run_", 10);
-  characterSpriteRunBack.sprite("Character/RunBack_", 10);
-  characterSpriteIdle.sprite("Character/Idle__", 10);
+  characterSpriteRun.sprite("Character/Run_", 5);
+  characterSpriteRunBack.sprite("Character/RunBack_", 5);
+  characterSpriteIdle.sprite("Character/Idle__", 5);
   size(1600, 800);
   forwardPOD = loadImage("forwardPOD.png");
   backwardPOD = loadImage("backwardPOD.png");
