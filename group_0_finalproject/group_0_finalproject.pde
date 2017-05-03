@@ -1,9 +1,12 @@
+import ddf.minim.*;
+
+
 ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
 ArrayList<Missile> missileList = new ArrayList<Missile>();
 boolean gameRunning, left, right, up, down;
-float currentHP, maxHP, zombie_num, missileWidth, missileHeight, spawnTimer, lastSpawn, breakTimer, upgradeTimer = -3000;
+float currentHP, maxHP, zombie_num, missileWidth, missileHeight, spawnTimer, lastSpawn, breakTimer, upgradeTimer = -3000, shootTimer, gunSpeed = .1;
 int score = 40, difficulty = 0;
-PImage img, muzzle_flash;
+PImage img, muzzle_flash, missile1, hazard, wire, dead;
 PVector gPlayerPos = new PVector(0, 0);
 Shelter shelter = new Shelter();
 Player player = new Player();
@@ -13,16 +16,31 @@ Sprite characterSpriteRun = new Sprite();
 Sprite characterSpriteRunBack = new Sprite();
 Sprite characterSpriteIdle = new Sprite();
 Crosshead crosshead = new Crosshead();
-Robot robot = new Robot(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
 PImage forwardPOD;
 PImage backwardPOD;
+boolean shooting;
+
+// theme song
+Minim minim1;
+AudioPlayer audioPlayer1;
+AudioInput input1;
+
+// missile1 sound
+Minim minim2;
+AudioPlayer audioPlayer2;
+AudioInput input2;
+
+
 
 void setup(){
   img = loadImage("background.png");
   muzzle_flash = loadImage("muzzle_flash.png");
+  missile1 = loadImage("missile1.png");
+  hazard = loadImage("hazard.png");
+  wire = loadImage("wire.png");
   currentHP = 2000;
   maxHP = 2000;
-  player.damage = 1;
+  player.damage = .5;
   gameRunning = true;
   zombieSprite.sprite("Zombie_Girl/PNG/Animation/Walk_", 6);
   characterSpriteRun.sprite("Character/Run_", 10);
@@ -31,7 +49,16 @@ void setup(){
   size(1600, 800);
   forwardPOD = loadImage("forwardPOD.png");
   backwardPOD = loadImage("backwardPOD.png");
+
+  minim1 = new Minim(this);
+  audioPlayer1 = minim1.loadFile("metalslug.mp3");
+  input1 = minim1.getLineIn();
+  audioPlayer1.play();
   
+  minim2 = new Minim(this);
+  audioPlayer2 = minim2.loadFile("missile1.mp3");
+  input2 = minim2.getLineIn();
+  noCursor();
 }
 
 void draw(){
@@ -41,7 +68,7 @@ void draw(){
       gameRunning = false;
       print("game over");
     }
-    tint(170);
+    tint(110);
     image(img, 400, -170);
     tint(220);
     shelter.runShelter();
@@ -54,9 +81,7 @@ void draw(){
     runButtons();
     //ellipse(500, 400, 30, 30);
     crosshead.display();
-    robot.display();
   }
-  print(score, "\n");
   
 }
 
@@ -68,12 +93,12 @@ void runButtons(){
   rect(417, 775, 4, 18);
   rect(410, 782, 18, 4);
   if(millis() - upgradeTimer < 3000){
-    text("+1 DMG", player.playerPos.x+7, player.playerPos.y);
+    text("+0.5 DMG", player.playerPos.x+7, player.playerPos.y);
   }
 }
 
 void upgradeGun(){
-  player.damage++;
+  player.damage += .5;
 }
 
 void showFramerate(){
@@ -121,6 +146,13 @@ void zombieSpawner(){
 
 //displays missiles if on screen
   void runMissiles(){
+    if(shooting == true && millis() - shootTimer > gunSpeed*1000){
+      shootTimer = millis();
+      Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
+      missileList.add(newMissile);
+      image(muzzle_flash, player.playerPos.x - 35, player.playerPos.y - 50);
+        
+    }
     for(int i = 0; i < missileList.size(); i++){
       Missile currentMissile = missileList.get(i);
       if(currentMissile.inBounds()){
@@ -148,25 +180,25 @@ void runPlayer(){
 
 
 
-
-
-
-
-
-
 //creates missile
 void mousePressed(){
   if(mouseX > 405 && mouseX < 430){
     if(mouseY > 770 && mouseY < 795){
       upgradeTimer = millis();
       upgradeGun();
-      
     }
   }
-  Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
-  missileList.add(newMissile);
+  audioPlayer2.loop();    
+  shooting = true;
 }
 
+void mouseReleased(){
+  shooting = false;
+  audioPlayer2.close();
+
+  //since close closes the file, we'll load it again
+  audioPlayer2 = minim2.loadFile("missile1.mp3");
+}
 
 //moves character
 void keyPressed(){

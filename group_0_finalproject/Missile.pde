@@ -1,6 +1,6 @@
 class Missile{
   
-  float xPos, yPos, xSpeed, ySpeed, mWidth, mHeight;
+  float xPos, yPos, xSpeed, ySpeed, mWidth, mHeight, m, angle;
   boolean inBounds = true;
 
   Missile(float x, float y, float mx, float my){
@@ -15,17 +15,28 @@ class Missile{
     ySpeed = mousePosition.y;
     mWidth = 10;
     mHeight = 10;
+    // calculating angle
+    m = (y - my)/(x - mx);
+    angle = atan(m);
+
   }
   boolean inBounds(){
-    if(xPos > 0 && xPos < 1610 && yPos > -10 && yPos < 800){
+    if(xPos > 400 && xPos < 1610 && yPos > -10 && yPos < 800){
       return true;
     }else{
       return false;
     }
   }
   void display(){
+    noStroke();    
+    fill(255, 246, 0);
+    pushMatrix();
+    translate(xPos + 10, yPos);
+    rotate(angle);
+    ellipse(0, 0, 30, 20);
     fill(255);
-    rect(xPos+10, yPos, mWidth, mHeight);
+    ellipse(0, 0, 15, 10);
+    popMatrix();
   }
   void update(){
     xPos += xSpeed;
