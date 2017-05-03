@@ -103,10 +103,12 @@ void runZombie(){
   }  
 
 void runPlayer(){
-  if(right | up | down){
+  if(up){
     player.displayRun();
   } else if(left){
     player.displayRunBack();
+  } else if( right | down){
+    player.displayRun();
   }
   else{
     player.displayIdle();
