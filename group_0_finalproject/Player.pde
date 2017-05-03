@@ -4,12 +4,15 @@ class Player{
   
   void displayRun(){
     characterSpriteRun.display(playerPos.x, playerPos.y, 100, 120);
+    image(forwardPOD, playerPos.x - 50, playerPos.y - 70);
   }
   void displayRunBack(){
+    image(backwardPOD, playerPos.x - 50, playerPos.y - 70);
     characterSpriteRunBack.display(playerPos.x, playerPos.y, 100, 120);
   }
   void displayIdle(){
     characterSpriteIdle.display(playerPos.x, playerPos.y, 70, 120);
+    image(forwardPOD, playerPos.x - 50, playerPos.y - 70);
   }
   
   void update(boolean left, boolean right, boolean up, boolean down){

@@ -14,6 +14,8 @@ Sprite characterSpriteRunBack = new Sprite();
 Sprite characterSpriteIdle = new Sprite();
 Crosshead crosshead = new Crosshead();
 Robot robot = new Robot(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
+PImage forwardPOD;
+PImage backwardPOD;
 
 void setup(){
   img = loadImage("background.png");
@@ -27,6 +29,9 @@ void setup(){
   characterSpriteRunBack.sprite("Character/RunBack_", 10);
   characterSpriteIdle.sprite("Character/Idle__", 10);
   size(1600, 800);
+  forwardPOD = loadImage("forwardPOD.png");
+  backwardPOD = loadImage("backwardPOD.png");
+  
 }
 
 void draw(){
