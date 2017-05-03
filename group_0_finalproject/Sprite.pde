@@ -1,6 +1,6 @@
 class Sprite{
   PImage[] objectSprite;
-  int imgCount, frame, animationTimer = 0, animationTimerValue = 500;
+  int imgCount, frame, animationTimer = 0, animationTimerValue = 100;
 
   
   void sprite(String imgName, int count){

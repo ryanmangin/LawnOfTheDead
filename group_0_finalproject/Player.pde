@@ -2,9 +2,14 @@ class Player{
   int xSpeed, ySpeed, damage;
   PVector playerPos = new PVector(450, 450);
   
-  void display(){
-    fill(255);
-    rect(playerPos.x, playerPos.y, 30, 80);
+  void displayRun(){
+    characterSpriteRun.display(playerPos.x, playerPos.y, 100, 120);
+  }
+  void displayRunBack(){
+    characterSpriteRunBack.display(playerPos.x, playerPos.y, 100, 120);
+  }
+  void displayIdle(){
+    characterSpriteIdle.display(playerPos.x, playerPos.y, 70, 120);
   }
   
   void update(boolean left, boolean right, boolean up, boolean down){
