@@ -36,7 +36,10 @@ class Zombie{
     
     PVector attraction = new PVector(400, 400).sub(zombiePos);
     PVector playerPos = new PVector(gPlayerPos.x, gPlayerPos.y).sub(zombiePos);
-    
+    if(zombiePos.x < 402){
+      zombiePos.x = 400;
+      attackBase();
+    }else{
     //if(zombiePos.x < 510 && zombiePos.x > 400){
     //    zombiePos.x -= speed + 1;
     //}else{
@@ -48,11 +51,11 @@ class Zombie{
     //    }
     //  }
     //}
-    attraction.normalize();
-    attraction.mult(2);
-    zombiePos.add(attraction);
-    
-    
+      attraction.normalize();
+      //attraction.mult(1);
+      zombiePos.add(attraction);
+      zombiePos.x -= 2;
+    }
     
   }
   
