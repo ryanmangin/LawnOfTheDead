@@ -2,7 +2,8 @@ class Missile{
   
   float xPos, yPos, xSpeed, ySpeed, mWidth, mHeight;
   boolean inBounds = true;
-  Missile(float x, float y, float mx, float my, float missileWidth, float missileHeight){
+
+  Missile(float x, float y, float mx, float my){
     PVector playerPosition = new PVector(x, y);
     PVector mousePosition = new PVector(mx, my);
     mousePosition.sub(playerPosition);
@@ -12,8 +13,8 @@ class Missile{
     yPos = y;
     xSpeed = mousePosition.x;
     ySpeed = mousePosition.y;
-    mWidth = missileWidth;
-    mHeight = missileHeight;
+    mWidth = 10;
+    mHeight = 10;
   }
   boolean inBounds(){
     if(xPos > 0 && xPos < 1610 && yPos > -10 && yPos < 800){

@@ -3,8 +3,7 @@ ArrayList<Missile> missileList = new ArrayList<Missile>();
 boolean gameRunning, left, right, up, down;
 float currentHP, maxHP, zombie_num, missileWidth, missileHeight, spawnTimer, lastSpawn, breakTimer, upgradeTimer = -3000;
 int score = 40, difficulty = 0;
-String gunType = "standard";
-PImage img;
+PImage img, muzzle_flash;
 PVector gPlayerPos = new PVector(0, 0);
 Shelter shelter = new Shelter();
 Player player = new Player();
@@ -14,9 +13,11 @@ Sprite characterSpriteRun = new Sprite();
 Sprite characterSpriteRunBack = new Sprite();
 Sprite characterSpriteIdle = new Sprite();
 Crosshead crosshead = new Crosshead();
+Robot robot = new Robot(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
 
 void setup(){
   img = loadImage("background.png");
+  muzzle_flash = loadImage("muzzle_flash.png");
   currentHP = 2000;
   maxHP = 2000;
   player.damage = 1;
@@ -48,6 +49,7 @@ void draw(){
     runButtons();
     //ellipse(500, 400, 30, 30);
     crosshead.display();
+    robot.display();
   }
   print(score, "\n");
   
@@ -156,11 +158,7 @@ void mousePressed(){
       
     }
   }
-  if(gunType == "standard"){
-    missileWidth = 10;
-    missileHeight = 10;
-  }
-  Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY, missileWidth, missileHeight);
+  Missile newMissile = new Missile(player.playerPos.x, player.playerPos.y, mouseX, mouseY);
   missileList.add(newMissile);
 }
 
