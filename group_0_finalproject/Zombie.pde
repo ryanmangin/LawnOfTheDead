@@ -81,7 +81,6 @@ class Zombie{
         if(currentMissile.yPos > zombiePos.y-currentMissile.mHeight && currentMissile.yPos < zombiePos.y-10+zHeight){
           zombieHP -= player.damage;
           missileList.remove(currentMissile);
-          //sound effect here
         }
       }
     }

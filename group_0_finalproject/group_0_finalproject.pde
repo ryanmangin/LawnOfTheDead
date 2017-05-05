@@ -6,7 +6,7 @@ ArrayList<Missile> missileList = new ArrayList<Missile>();
 boolean gameRunning, left, right, up, down;
 float currentHP, maxHP, zombie_num, missileWidth, missileHeight, spawnTimer, lastSpawn, breakTimer, upgradeTimer = -3000, shootTimer, gunSpeed = .1;
 int score = 40, difficulty = 0;
-PImage img, muzzle_flash, missile1, hazard, wire, dead;
+PImage img, muzzle_flash, missile1, hazard, wire, dead, lightningImg;
 PVector gPlayerPos = new PVector(0, 0);
 Shelter shelter = new Shelter();
 Player player = new Player();
@@ -16,9 +16,11 @@ Sprite characterSpriteRun = new Sprite();
 Sprite characterSpriteRunBack = new Sprite();
 Sprite characterSpriteIdle = new Sprite();
 Crosshead crosshead = new Crosshead();
+Lightning lightning = new Lightning(player.playerPos.x, player.playerPos.y);
 PImage forwardPOD;
 PImage backwardPOD;
 boolean shooting;
+String gunType = "Lightning";
 
 // theme song
 Minim minim1;
@@ -36,6 +38,7 @@ void setup(){
   img = loadImage("background.png");
   muzzle_flash = loadImage("muzzle_flash.png");
   missile1 = loadImage("missile1.png");
+  lightningImg = loadImage("lightning.png");
   hazard = loadImage("hazard.png");
   wire = loadImage("wire.png");
   currentHP = 2000;
@@ -53,7 +56,7 @@ void setup(){
   minim1 = new Minim(this);
   audioPlayer1 = minim1.loadFile("metalslug.mp3");
   input1 = minim1.getLineIn();
-  audioPlayer1.play();
+  audioPlayer1.loop();
   
   minim2 = new Minim(this);
   audioPlayer2 = minim2.loadFile("missile1.mp3");
@@ -72,12 +75,17 @@ void draw(){
     image(img, 400, -170);
     tint(220);
     shelter.runShelter();
-    runPlayer();
-    runMissiles();
-    showScore();
-    showFramerate();
     zombieSpawner();
     runZombie();
+    runPlayer();
+    if(gunType == "Missile"){
+      runMissiles();
+    }
+    if(gunType == "Lightning"){
+      runLightning();
+    }
+    showScore();
+    showFramerate();
     runButtons();
     //ellipse(500, 400, 30, 30);
     crosshead.display();
@@ -162,7 +170,11 @@ void zombieSpawner(){
         missileList.remove(currentMissile);
       }
     }
-  }  
+  }
+  
+  void runLightning(){
+    lightning.display(player.playerPos.x, player.playerPos.y);
+  }
 
 void runPlayer(){
   if(right){
@@ -188,16 +200,19 @@ void mousePressed(){
       upgradeGun();
     }
   }
-  audioPlayer2.loop();    
+  if(gunType == "Missile"){
+    audioPlayer2.loop();    
+  }
   shooting = true;
 }
 
 void mouseReleased(){
   shooting = false;
-  audioPlayer2.close();
-
-  //since close closes the file, we'll load it again
-  audioPlayer2 = minim2.loadFile("missile1.mp3");
+  if(gunType == "Missile"){
+    audioPlayer2.close();
+    //since close closes the file, we'll load it again
+    audioPlayer2 = minim2.loadFile("missile1.mp3");
+  }
 }
 
 //moves character
