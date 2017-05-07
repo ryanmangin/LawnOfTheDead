@@ -16,11 +16,11 @@ Sprite characterSpriteRun = new Sprite();
 Sprite characterSpriteRunBack = new Sprite();
 Sprite characterSpriteIdle = new Sprite();
 Crosshead crosshead = new Crosshead();
-Lightning lightning = new Lightning(player.playerPos.x, player.playerPos.y);
+Lightning lightning = new Lightning();
 PImage forwardPOD;
 PImage backwardPOD;
 boolean shooting;
-String gunType = "Lightning";
+String gunType =  "Lightning";
 
 // theme song
 Minim minim1;
@@ -31,6 +31,11 @@ AudioInput input1;
 Minim minim2;
 AudioPlayer audioPlayer2;
 AudioInput input2;
+
+// electricity sound
+Minim minim3;
+AudioPlayer audioPlayer3;
+AudioInput input3;
 
 
 
@@ -61,6 +66,10 @@ void setup(){
   minim2 = new Minim(this);
   audioPlayer2 = minim2.loadFile("missile1.mp3");
   input2 = minim2.getLineIn();
+  
+  minim3 = new Minim(this);
+  audioPlayer3 = minim3.loadFile("electric.mp3");
+  input3 = minim3.getLineIn();
   noCursor();
 }
 
@@ -81,7 +90,7 @@ void draw(){
     if(gunType == "Missile"){
       runMissiles();
     }
-    if(gunType == "Lightning"){
+    if(gunType == "Lightning" && shooting){
       runLightning();
     }
     showScore();
@@ -202,6 +211,8 @@ void mousePressed(){
   }
   if(gunType == "Missile"){
     audioPlayer2.loop();    
+  } else if(gunType == "Lightning"){
+    audioPlayer3.loop();
   }
   shooting = true;
 }
@@ -212,6 +223,10 @@ void mouseReleased(){
     audioPlayer2.close();
     //since close closes the file, we'll load it again
     audioPlayer2 = minim2.loadFile("missile1.mp3");
+  } else if(gunType == "Lightning"){
+    audioPlayer3.close();
+    //since close closes the file, we'll load it again
+    audioPlayer3 = minim3.loadFile("electric.mp3");
   }
 }
 
@@ -229,6 +244,12 @@ void keyPressed(){
   if(key == 's'){
     down = true;
   }
+  if(key == 'r' && gunType == "Missile"){
+    gunType = "Lightning";
+  }
+  if(key == 'r' && gunType == "Lightning"){
+    gunType = "Missile";
+  }
 }
 
 //stops movement
@@ -244,5 +265,5 @@ void keyReleased(){
   }
   if(key == 's'){
     down = false;
-  }
+  }  
 }

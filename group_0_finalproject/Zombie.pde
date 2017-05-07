@@ -1,6 +1,6 @@
 class Zombie{
   PVector zombiePos = new PVector();
-  float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP, spawnTime, spawnRate = 1, zombie_num;
+  float zombieMaxHP, zombieHP, speed, attackDamage, attackSpeed, timer, displayHP, spawnTime, spawnRate = 1, zombie_num, ltimer, ltimerValue = 500;
   
   float zHeight = 100;
   float zWidth = 50;
@@ -75,20 +75,26 @@ class Zombie{
   }
   
   void collision(){
-    for(int i = 0; i < missileList.size(); i++){   
-      Missile currentMissile = missileList.get(i);
-      if(currentMissile.xPos > zombiePos.x-currentMissile.mWidth && currentMissile.xPos < zombiePos.x-5+zWidth){
-        if(currentMissile.yPos > zombiePos.y-currentMissile.mHeight && currentMissile.yPos < zombiePos.y-10+zHeight){
-          zombieHP -= player.damage;
-          missileList.remove(currentMissile);
+    if(gunType == "Missile"){
+      for(int i = 0; i < missileList.size(); i++){   
+        Missile currentMissile = missileList.get(i);
+        if(currentMissile.xPos > zombiePos.x-currentMissile.mWidth && currentMissile.xPos < zombiePos.x-5+zWidth){
+          if(currentMissile.yPos > zombiePos.y-currentMissile.mHeight && currentMissile.yPos < zombiePos.y-10+zHeight){
+            zombieHP -= player.damage;
+            missileList.remove(currentMissile);
+          }
+        }
+      }
+    } else if(gunType == "Lightning"){
+        PVector newZombiePos = new PVector();
+        newZombiePos.x = zombiePos.x + 25;
+        newZombiePos.y = zombiePos.y + 50;
+        if(newZombiePos.dist(lightning.lightningPos) <= lightning.r){
+          if((millis() - ltimer) >= ltimerValue){
+            zombieHP -= player.damage * .5;
+            ltimer = millis();
+          }
         }
       }
     }
   }
-  
-  
-  
-  
-  
- 
-}
