@@ -84,17 +84,18 @@ void draw(){
   if(startScreen){
     background(255);
     image(img2, 0, 0);
-    fill(255);
-    rect(213, 165, 100, 40);
+    fill(0);
+    rect(700, 450, 200, 50);
     fill(255,0,0);
-    text("HIGH SCORE:", 225, 180);
+    textAlign(CENTER);
+    text("HIGH SCORE:", 800, 470);
     for (int i = 0; i < 5; i++) {
-      fill(0);
-      text(highScore.getInt(0, 0), 253, 196);
+      fill(255, 0, 0);
+      text(highScore.getInt(0, 0), 800, 486);
     }
-    fill(150);
-    rect(730, 350, 200, 50);
-    fill(255);
+    fill(0);
+    rect(700, 350, 200, 50);
+    fill(255, 0, 0);    
     text("Start Game", 800, 380);
   }
   if(gameRunning){
@@ -274,7 +275,7 @@ void mousePressed(){
   if(startScreen){
     if(mouseX > 730 && mouseX < 930){
       if(mouseY > 350 && mouseY < 400){
-        rect(730, 350, 200, 50);
+        rect(700, 350, 200, 50);
         gameRunning = true;
         startScreen = false;
       }
@@ -349,11 +350,24 @@ void keyPressed(){
     if(key == 's'){
       down = true;
     }
-    //if(key == 'r' && gunType == "Missile"){
-    //  gunType = "Lightning";
-    //}else if(key == 'r' && gunType == "Lightning"){
-    //  gunType = "Missile";
-    //}
+    if(key == 'r' && gunType == "Missile"){
+      audioPlayer2.close();
+      //since close closes the file, we'll load it again
+      audioPlayer2 = minim2.loadFile("missile1.mp3");
+      gunType = "Lightning";
+      if(shooting){
+        audioPlayer3.loop();
+      }
+        
+    }else if(key == 'r' && gunType == "Lightning"){
+      audioPlayer3.close();
+      //since close closes the file, we'll load it again
+      audioPlayer3 = minim3.loadFile("electric.mp3");
+      gunType = "Missile";
+      if(shooting){
+        audioPlayer2.loop();
+      }
+    }
   }
 }
 

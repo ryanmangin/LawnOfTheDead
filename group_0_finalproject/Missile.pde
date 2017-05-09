@@ -21,7 +21,7 @@ class Missile{
 
   }
   boolean inBounds(){
-    if(xPos > 400 && xPos < 1610 && yPos > -10 && yPos < 800){
+    if(xPos > 380 && xPos < 1610 && yPos > -10 && yPos < 800){
       return true;
     }else{
       return false;
