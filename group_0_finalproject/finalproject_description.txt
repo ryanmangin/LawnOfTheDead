@@ -1,0 +1,88 @@
+Upon clicking run, the user is displayed the start screen which has the start button and high score.
+Clicking "Start Game" starts the game which ends once the shelter hp is 0.
+
+Classes:
+
+Crosshair:
+draws a crosshair at mouseposition and hides cursor.
+
+Lightning:
+projectile type. 
+Targets all zombies in a small radius around the player and deals damage to them when mouse is pressed.
+The animation for this is randomly created.
+
+Missile:
+projectile type.
+upon clicking the mouse when missile type is selected, a small missile is created with a vector from the player to the mouse position.
+The missile has an inBounds function that will only display and store the missile if it is on screen.
+
+Player:
+has 3 methods to display different sprites based on movement.
+updates the xpos and ypos depending on xspeed and yspeed.
+
+Shelter:
+stationary object.
+has a healthbar that displays how much health is remaining.
+
+Sprite:
+methodology for displaying both player and zombie sprites.
+
+Zombie:
+has health and attack damage.
+has method to display health based on remaining health.
+has method to move zombie based on a vector from its position to the center of the shelter.
+has method to attack shelter to do attack damage based on attack speed. 
+has method to check for collision with missile/lightning projectile which subtracts health.
+
+main:
+Array list for zombies and missiles. 
+booleans for game state and if game is muted.
+floats for wave timers and shelter health.
+ints for score, money, and difficulty
+images for shelter, background, missiles.
+sprites for zombies and player.
+images for mechanical shooter on player.
+string for gunType
+
+setup function:
+sets shelter health to be 2000/2000.
+loads all required images.
+sets player damage to be 0.5.
+loads audio players.
+
+draw function:
+handles the game states and runs associated functions
+
+runButtons function:
+displayes buttons and any effects associated with them.
+
+upgradeGun function:
+upgrades gun damage if required funds are met.
+
+muteButton function:
+handles muting functionality.
+
+showScore function: 
+shows score and money at top of screen.
+
+zombieSpawner function:
+spawns zombies if not on break
+handles difficulty increase after each wave.
+
+runZombie function:
+calls all functions for each zombie.
+
+runMissiles:
+handles all functionality formissiles and removes them if they are out of bounds.
+
+runLightning:
+displays lightning animation.
+
+runPlayer:
+moves player based on if wasd pressed.
+
+mousePressed, mouseReleased:
+handles shooting and button functionalty.
+
+keyPressed, keyReleased:
+handles player movement functionality.
